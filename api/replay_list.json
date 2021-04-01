@@ -1,0 +1,17 @@
+{
+    "说明":"获取当前储存的回放列表，在初始化和停止录制时调用",
+    "Method":"GET",
+    "URL": "http://localhost:80/replay_list",
+    "returnValue":{
+        "录像编号，从1开始整数":{
+            "name": "录制起始时间字符串",
+            "startPhoto":"录播首张图片的编号 如图片为‘1.jpg’则该字段为‘1’",
+            "photoNumber":"图片张数 整数"
+        },
+        "1":{
+            "name": "2021-02-25/09:55:40",
+            "startPhoto":"2",
+            "photoNumber":"10"
+        }
+    }
+}

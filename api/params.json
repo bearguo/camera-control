@@ -1,0 +1,14 @@
+{
+    "说明":"获取相机初始设置参数，在初始化网页和更新参数后调用",
+    "Method":"GET",
+    "URL": "http://localhost:80/params",
+    "returnValue":{
+        "gain": "增益 0-15整数 ", 
+        "exposureMode": "自动曝光模式 0/1 0表示关闭自动曝光，1表示打开自动曝光",
+        "exposureTime": "曝光时间 40-500000整数 ",
+        "brightness": "亮度 0-150整数",
+        "frameRate": "采集帧数 1-2整数",
+        "horizontalFlip": "水平翻转模式 0/1 0表示关闭水平翻转，1表示打开水平翻转",
+        "verticalFlip": "垂直翻转模式 0/1 0表示关闭垂直翻转，1表示打开垂直翻转"
+    }
+}

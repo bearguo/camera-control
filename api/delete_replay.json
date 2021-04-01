@@ -1,0 +1,15 @@
+{
+    "说明":"删除选中回放",
+    "Method":"POST",
+    "URL": "http://localhost:80/delete_replay",
+    "API":{
+        "delete":"要删除的文件夹名"
+        },
+    "EXAMPLE":{
+            "delete":"2021-02-25/09:55:40"
+        },
+    "returnValue":{
+        "success": "ok",
+        "fail": "其他返回值"
+        }
+}

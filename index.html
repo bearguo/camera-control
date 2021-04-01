@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>路由器管理</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="stylesheet" href=" ./dist/css/sm.min.css">
+  <link rel="stylesheet" href=" ./dist/css/sm-extend.min.css">
+
+</head>
+
+<body>
+  <div class="page-group">
+    <div class="page page-current">
+
+      <header class="bar bar-nav">
+        <h1 class="title">后台管理系统</h1>
+      </header>
+
+      <div class="content">
+        <div class="buttons-tab">
+          <a href="#tab1" class="tab-link button active" id="tab-head1">参数设置</a>
+          <a href="#tab2" class="tab-link button" id="tab-head2">实时播放</a>
+          <a href="#tab3" class="tab-link button" id="tab-head3">回放设置</a>
+        </div>
+        <div class="content-block">
+          <div class="tabs">
+            <div id="tab1" class="tab active">
+              <div class="content-block">
+                <div class="list-block">
+                  <ul>
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-password"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">增益(0-15)</div>
+                          <div class="item-input">
+                            <input id="gain" type="number" min="0" max="15" >
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">自动曝光模式</div>
+                          <div class="item-input">
+                            <select id="exposure-mode">
+                              <option value="1">开</option>
+                              <option value="0">关</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-password"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">曝光时间(40us-500000us)</div>
+                          <div class="item-input">
+                            <input id="exposure-time" type="number" min="40" max="500000" >
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-password"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">亮度(0-150)</div>
+                          <div class="item-input">
+                            <input id="brightness" type="number" min="0" max="150" >
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">采集帧数</div>
+                          <div class="item-input">
+                            <select id="frame-rate">
+                              <option value="1">1帧/秒</option>
+                              <option value="2">2帧/秒</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">图像水平翻转</div>
+                          <div class="item-input">
+                            <select id="horizontal-flip">
+                              <option value="1">开</option>
+                              <option value="0">关</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                        <div class="item-inner">
+                          <div class="item-title label">图像垂直翻转</div>
+                          <div class="item-input">
+                            <select id="vertical-flip">
+                              <option value="1">开</option>
+                              <option value="0">关</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+              
+                  </ul>
+                </div>
+                <div class="content-block">
+                  <div class="row">
+                    <div class="col-50"><a id="admin-clear"
+                        class="button button-big button-fill button-warning"">重置</a></div>
+                              <div class=" col-50"><a id="admin-submit"
+                          class="button button-big button-fill button-success">提交</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="tab2" class="tab">
+              <div class="content-block">
+                <img alt="实时图片" id="live-picture" src="./photo/live.jpg">
+              </div>
+            </div>
+
+            <div id="tab3" class="tab">
+              <div class="content-block"> 
+                <div class="list-block">
+                  <ul>
+                    <li>
+                      <div class="row" style="display: flex;">
+                        <div class="col-50"><a id="record-btn"
+                            class="button button-big button-fill button-success"">录制回放</a></div>
+                        <div class="col-50" id="record-time" style="justify-content:center; align-items:center; display:-webkit-flex;">0:0:0</div>
+                      </div>
+                    </li>
+                    
+                    <li>
+                      <!-- <div class="content-block"> -->
+                        <div class="item-content">
+                          <div class="item-inner">
+                            <div class="item-title label" style="text-align: center;">回放列表</div>
+                            <div class="item-input">
+                              <select name="replay-list" id="replay-list" style="text-align: center;">
+                                <option value="0" style="text-align: center;">请选择要播放的回看</option>
+                              </select>
+                            </div>
+                            <div class="delete-replay">
+                              <button id="delete-replay" class="button button-small button-fill button-warning"> 删除回放</button>
+                            </div>
+                          </div>
+                        </div>
+                      <!-- </div> -->
+                    </li>
+                  </ul>
+                </div>
+            </div>
+            <div class="content-block">
+              <div class="row">
+                <div class="col-50"><a id="start-replay"
+                    class="button button-big button-fill button-success"">播放</a></div>
+                <div class=" col-50"><a id="stop-replay"
+                    class="button button-big button-fill button-warning">停止</a></div>
+              </div>
+            </div>
+            <img alt="回看图片" id="replay-photo">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+<script src='./dist/js/jquery-3.3.1.min.js'></script>
+<script src='./dist/js/sm.min.js'></script>
+<script src='./dist/js/sm-extend.min.js'></script>
+<script src='./dist/js/test.js'></script>
+</html>

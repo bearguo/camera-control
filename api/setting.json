@@ -1,0 +1,18 @@
+{
+    "说明":"用户设置相机各参数，未检查数据合法性，请使用时输入合法值",
+    "Method":"POST",
+    "URL": "http://localhost:80/setting",
+    "API":{
+        "gain": "增益 0-15整数 ", 
+        "exposureMode": "自动曝光模式 0/1 0表示关闭自动曝光，1表示打开自动曝光",
+        "exposureTime": "曝光时间 40-500000整数 ",
+        "brightness": "亮度 0-150整数",
+        "frameRate": "采集帧数 1-2整数",
+        "horizontalFlip": "水平翻转模式 0/1 0表示关闭水平翻转，1表示打开水平翻转",
+        "verticalFlip": "垂直翻转模式 0/1 0表示关闭垂直翻转，1表示打开垂直翻转"
+    },
+    "returnValue":{
+        "success": "ok",
+        "fail": "其他返回值"
+    }
+}
