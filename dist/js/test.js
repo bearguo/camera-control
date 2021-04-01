@@ -1,6 +1,6 @@
 'use strict'
 const SERVER_IP = window.location.hostname
-const SERVER_PORT = "5501"
+const SERVER_PORT = "80"
 // *****************************tab1****************************
 
     const GET_SETTING_URL = `http://${SERVER_IP}:${SERVER_PORT}/params`
