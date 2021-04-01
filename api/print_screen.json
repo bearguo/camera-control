@@ -1,0 +1,12 @@
+{
+    "说明":"录制时控制截图, 收到该请求时控制相机截图",
+    "Method":"POST",
+    "URL": "http://localhost:80/print_screen",
+    "API":{
+        "printscreen":"1"
+        },
+    "returnValue":{
+        "success": "ok",
+        "fail": "其他返回值"
+        }
+}

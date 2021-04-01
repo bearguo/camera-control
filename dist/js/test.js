@@ -89,46 +89,40 @@ const SERVER_PORT = "5501"
 
 
 // ***********************************tab2***********************
-    let liveRefreshTimer = null
-    let liveRefreshFlag = false
-    $("#tab-head1").on("click", function(){
-        if(liveRefreshFlag){
-            liveRefreshFlag = false
-            clearInterval(liveRefreshTimer)
-        }
-        
-    })
-
-    $("#tab-head2").on("click", function(){
-        if(!liveRefreshFlag){
-            liveRefreshFlag = true
-            clearInterval(liveRefreshTimer)
-            liveRefreshTimer = setInterval(()=>{
-                try{
-                    $("#live-picture").attr("src", `./photo/live.jpg?${new Date().getTime()}`)
-                }catch(err){}  
-            },100)
-        }
-    })
-
-    $("#tab-head3").on("click", function(){
-        if(liveRefreshFlag){
-            liveRefreshFlag = false
-            clearInterval(liveRefreshTimer)
-        }
-        
-    })
-
-// ***********************************tab3***********************
-
 const RECORD_URL = `http://${SERVER_IP}:${SERVER_PORT}/record`
-const REPLAY_URL = `http://${SERVER_IP}:${SERVER_PORT}/replay_list`
-const DELETE_REPLAY_URL = `http://${SERVER_IP}:${SERVER_PORT}/delete_replay`
-let replay_list = {}
+const PRINT_SCREEN_URL = `http://${SERVER_IP}:${SERVER_PORT}/print_screen`
+let liveRefreshTimer = null
+let liveRefreshFlag = false
 let recordFlag = false
 let recordTime = 0
 let recordTimer = null
-let replayInterval = null
+
+$("#tab-head1").on("click", function(){
+    if(liveRefreshFlag){
+        liveRefreshFlag = false
+        clearInterval(liveRefreshTimer)
+    }
+})
+
+$("#tab-head2").on("click", function(){
+    if(!liveRefreshFlag && !recordFlag){
+        liveRefreshFlag = true
+        clearInterval(liveRefreshTimer)
+        liveRefreshTimer = setInterval(()=>{
+            try{
+                $("#live-picture").attr("src", `./photo/live.jpg?${new Date().getTime()}`)
+            }catch(err){}  
+        },100)
+    }
+})
+
+$("#tab-head3").on("click", function(){
+    if(liveRefreshFlag){
+        liveRefreshFlag = false
+        clearInterval(liveRefreshTimer)
+    }
+})
+
 $("#record-btn").on("click", function(){
     let xhr = new XMLHttpRequest()
     xhr.open("POST", RECORD_URL)
@@ -146,13 +140,16 @@ $("#record-btn").on("click", function(){
                     },1000)
                 }else{
                     $("#record-btn").text("开始录制")
+                    liveRefreshFlag = false
+                    clearInterval(liveRefreshTimer)
                     clearInterval(recordTimer)
                     recordTime = 0
                     $('#record-time').text('0:0:0')
                     getReplayList()
                 }
-            }
-            else {
+            }else if(xhr.response === "no"){
+                $.toast("其他用户正在录制")
+            }else {
                 $.toast("未知错误")
             }
         }
@@ -164,11 +161,60 @@ $("#record-btn").on("click", function(){
     xhr.send(JSON.stringify(form))
 })
 
+$("#print-screen-btn").on("click", function(){
+    let xhr = new XMLHttpRequest()
+    xhr.open("POST", PRINT_SCREEN_URL)
+    xhr.setRequestHeader('content-type', 'application/json');
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4 && xhr.status == 200){
+            if(xhr.response === "ok"){
+                getPrintScreenList()  
+            }else{
+                $.toast("截图失败，未知错误1")
+            }
+        }
+    }
+    let form = {
+        "printscreen": 1
+    }
+    xhr.send(JSON.stringify(form))
+})
+
+$("#live-btn").on("click", function(){
+    if(!recordFlag && !liveRefreshFlag){
+        liveRefreshFlag = true
+        clearInterval(liveRefreshTimer)
+        liveRefreshTimer = setInterval(()=>{
+            try{
+                $("#live-picture").attr("src", `./photo/live.jpg?${new Date().getTime()}`)
+            }catch(err){}  
+        },100)
+    }
+})
+
+// ***********************************tab3***********************
+const REPLAY_URL = `http://${SERVER_IP}:${SERVER_PORT}/replay_list`
+const DELETE_REPLAY_URL = `http://${SERVER_IP}:${SERVER_PORT}/delete_replay`
+const PRINT_SCREEN_LIST_URL = `http://${SERVER_IP}:${SERVER_PORT}/print_screen_list`
+const DELETE_PRINT_SCREEN_URL = `http://${SERVER_IP}:${SERVER_PORT}/delete_print_screen`
+let replay_list = {}
+let print_screen_list = {}
+
 $("#replay-list").on("change", function(){
+    $("#replay-video").css("display", "")
+    $("#print-screen").css("display", "none")
     let recordNumber = $("#replay-list").val()
     if(recordNumber!=0){
-        let startPhoto = replay_list[recordNumber]["startPhoto"]
-        $("#replay-photo").attr("src", `./record/${replay_list[recordNumber]["name"]}/${startPhoto}.jpg`)
+        $("#replay-video").attr("src", `./record/${replay_list[recordNumber]["name"]}.mp4`)
+    }
+})
+
+$("#print-screen-list").on("change", function(){
+    $("#replay-video").css("display", "none")
+    $("#print-screen").css("display", "")
+    let recordNumber = $("#print-screen-list").val()
+    if(recordNumber!=0){
+        $("#print-screen").attr("src", `./photo/${print_screen_list[recordNumber]["name"]}.jpg`)
     }
 })
 
@@ -182,6 +228,31 @@ $("#delete-replay").on("click", function(){
                 clearInterval(replayInterval)
                 getReplayList()
                 $("#replay-photo").attr("src", ``)
+            }else if (xhr.response === "no"){
+                $.toast("其他用户正在观看，无法删除")
+            }
+            else {
+                $.toast("未知错误")
+            }
+        }
+    }
+    let form = {
+        "delete": replay_list[$("#replay-list").val()]["name"]
+    }
+    xhr.send(JSON.stringify(form))
+})
+
+$("#delete-print-screen").on("click", function(){
+    let xhr = new XMLHttpRequest()
+    xhr.open("POST", DELETE_PRINT_SCREEN_URL)
+    xhr.setRequestHeader('content-type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.response === "ok") {
+                getPrintScreenList()
+                $("#print-screen").attr("src", ``)
+            }else if (xhr.response === "no"){
+                $.toast("其他用户正在观看，无法删除")
             }
             else {
                 $.toast("未知错误")
@@ -193,27 +264,6 @@ $("#delete-replay").on("click", function(){
     }
     console.log(form)
     xhr.send(JSON.stringify(form))
-})
-
-$("#start-replay").on("click", function(){
-    let recordNumber = $("#replay-list").val()
-    let pathForder = replay_list[recordNumber]["name"]
-    let startPhoto = parseInt(replay_list[recordNumber]["startPhoto"])
-    let photoNumber = parseInt(replay_list[recordNumber]["photoNumber"])
-    let photoCount = 0
-    clearInterval(replayInterval)
-    replayInterval = setInterval(()=>{
-        if(photoCount<photoNumber){
-            $("#replay-photo").attr("src", `./record/${pathForder}/${startPhoto+photoCount}.jpg`)
-            photoCount += 1
-        }else{
-            clearInterval(replayInterval)
-        }
-    }, 1000)
-})
-
-$("#stop-replay").on("click", function(){
-    clearInterval(replayInterval)
 })
 
 function getReplayList(){
@@ -233,27 +283,25 @@ function getReplayList(){
     xhr.send()
 }
 
-
+function getPrintScreenList(){
+    $("#print-screen-list").empty()
+    $("#print-screen-list").append(`<option value="0">请选择要观看的截图</option>`)
+    let xhr = new XMLHttpRequest()
+    xhr.open("GET", PRINT_SCREEN_LIST_URL)
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let result = JSON.parse(xhr.response)
+            Object.keys(result).forEach((key)=>{
+                print_screen_list[key] = result[key]
+                $("#print-screen-list").append($(`<option value="${parseInt(key)}">${replay_list[key]["name"]}</option>`))
+            })
+        }
+    }
+    xhr.send()
+}
 
 $(function(){
     initSetting()
     getReplayList()
-    /* chrome 不支持 onbeforeunload 中添加方法，改为心跳包 已弃用
-    const LOGIN_URL = `http://${SERVER_IP}:${SERVER_PORT}/login`
-    setInterval(()=>{
-        $.ajax({
-            type: "GET",
-            url: LOGIN_URL
-        })
-    },1000*5)
-    $.ajax({
-        type: "GET",
-        url: LOGIN_URL,
-        success:(result)=>{
-             if(result["visiting"]!="0"){
-                 $.toast("有其他用户在访问管理页面，请不要更改设置")
-             }
-        }
-    })
-    */
+    getPrintScreenList()
 })

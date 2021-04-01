@@ -144,12 +144,9 @@
 
             <div id="tab2" class="tab">
               <div class="content-block">
-                <img alt="实时图片" id="live-picture" src="./photo/live.jpg">
-              </div>
-            </div>
-
-            <div id="tab3" class="tab">
-              <div class="content-block"> 
+                <div style="text-align: center; vertical-align: middle;">
+                  <img alt="实时图片" id="live-picture" src="./photo/live.jpg" style="margin: auto;">
+                </div>
                 <div class="list-block">
                   <ul>
                     <li>
@@ -159,9 +156,24 @@
                         <div class="col-50" id="record-time" style="justify-content:center; align-items:center; display:-webkit-flex;">0:0:0</div>
                       </div>
                     </li>
-                    
                     <li>
-                      <!-- <div class="content-block"> -->
+                      <div class="row" style="display: flex;margin-top: 10px;">
+                        <div class="col-50"><a id="print-screen-btn"
+                            class="button button-big button-fill button-success"">截图</a></div>
+                            <div class="col-50"><a id="live-btn"
+                              class="button button-big button-fill button-primary"">返回直播</a></div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div id="tab3" class="tab">
+              <div class="content-block"> 
+                <div class="list-block">
+                  <ul>
+                    <li>
                         <div class="item-content">
                           <div class="item-inner">
                             <div class="item-title label" style="text-align: center;">回放列表</div>
@@ -175,24 +187,32 @@
                             </div>
                           </div>
                         </div>
-                      <!-- </div> -->
+                    </li>
+                    <li>
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title label" style="text-align: center;">截图列表</div>
+                          <div class="item-input">
+                            <select name="print-screen-list" id="print-screen-list" style="text-align: center;">
+                              <option value="0" style="text-align: center;">请选择要观看的截图</option>
+                            </select>
+                          </div>
+                          <div class="delete-replay">
+                            <button id="delete-print-screen" class="button button-small button-fill button-warning"> 删除截图</button>
+                          </div>
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </div>
             </div>
-            <div class="content-block">
-              <div class="row">
-                <div class="col-50"><a id="start-replay"
-                    class="button button-big button-fill button-success"">播放</a></div>
-                <div class=" col-50"><a id="stop-replay"
-                    class="button button-big button-fill button-warning">停止</a></div>
-              </div>
+            <div style="text-align: center; vertical-align: middle;">
+              <video id="replay-video" controls muted autoplay style="display: none;"></video>
+              <img id="print-screen" alt="截图" style="display: none;">
             </div>
-            <img alt="回看图片" id="replay-photo">
           </div>
         </div>
       </div>
-
     </div>
   </div>
 

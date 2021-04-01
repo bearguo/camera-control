@@ -1,9 +1,9 @@
 {
-    "说明":"删除选中的回放",
+    "说明":"删除选中的截图",
     "Method":"POST",
-    "URL": "http://localhost:80/delete_replay",
+    "URL": "http://localhost:80/delete_print_screen",
     "API":{
-        "delete":"视频文件相对于record文件夹的路径 如下例子，则要删除的视频文件存放路径为 record/2021-02-25/09:55:40.mp4"
+        "delete":"截图文件相对于photo文件夹的路径 如下例子，则要删除的截图文件存放路径为 photo/2021-02-25/09:55:40.mp4"
         },
     "EXAMPLE":{
             "delete":"2021-02-25/09:55:40"

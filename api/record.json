@@ -3,10 +3,11 @@
     "Method":"POST",
     "URL": "http://localhost:80/params",
     "API":{
-        "record":"0/1 0表示开始录制，1表示录制结束"
+        "record":"0/1 1表示开始录制，0表示录制结束"
         },
     "returnValue":{
-        "success": "ok",
-        "fail": "其他返回值"
+        "成功": "ok",
+        "其他用户正在录制":"no",
+        "其他错误": "其他返回值"
         }
 }
