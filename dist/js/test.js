@@ -200,6 +200,25 @@ const DELETE_PRINT_SCREEN_URL = `http://${SERVER_IP}:${SERVER_PORT}/delete_print
 let replay_list = {}
 let print_screen_list = {}
 
+$("#replay-list").on("mouseover", function(){
+    let tmp
+    try{
+        tmp = replay_list[$("#replay-list").val()]["name"]
+    }catch(err){
+        getReplayList()
+        return
+    }   
+    $("#replay-list").empty()
+    $("#replay-list").append(`<option value="0">请选择要播放的回看</option>`)
+    for(const [key, value] of Object.entries(replay_list)){
+        if(value["name"] == tmp){
+            $("#replay-list").append($(`<option value="${parseInt(key)}" selected="selected">${value["name"]}</option>`))
+        }else{
+            $("#replay-list").append($(`<option value="${parseInt(key)}">${value["name"]}</option>`))
+        }
+    }
+})
+
 $("#replay-list").on("click", function(){
     $("#replay-video").css("display", "")
     $("#print-screen").css("display", "none")
@@ -211,6 +230,25 @@ $("#replay-list").on("change", function(){
     let recordNumber = $("#replay-list").val()
     if(recordNumber!=0){
         $("#replay-video").attr("src", `./record/${replay_list[recordNumber]["name"]}.mp4`)
+    }
+})
+
+$("#print-screen-list").on("mouseover", function(){
+    let tmp
+    try{
+        tmp = print_screen_list[$("#print-screen-list").val()]["name"]
+    }catch(err){
+        getPrintScreenList()
+        return
+    }
+    $("#print-screen-list").empty()
+    $("#print-screen-list").append(`<option value="0">请选择要观看的截图</option>`)
+    for(const [key, value] of Object.entries(print_screen_list)){
+        if(value["name"] == tmp){
+            $("#print-screen-list").append($(`<option value="${parseInt(key)}" selected="selected">${value["name"]}</option>`))
+        }else{
+            $("#print-screen-list").append($(`<option value="${parseInt(key)}">${value["name"]}</option>`))
+        }
     }
 })
 
@@ -321,4 +359,32 @@ $(function(){
     initSetting()
     getReplayList()
     getPrintScreenList()
+    setInterval(function(){
+        let xhr = new XMLHttpRequest()
+        xhr.open("GET", REPLAY_URL)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.response)
+                replay_list = {}
+                Object.keys(result).forEach((key)=>{
+                    replay_list[key] = result[key]
+                })
+            }
+        }
+        xhr.send()
+    },1000)
+    setInterval(function(){
+        let xhr = new XMLHttpRequest()
+        xhr.open("GET", PRINT_SCREEN_LIST_URL)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let result = JSON.parse(xhr.response)
+                print_screen_list = {}
+                Object.keys(result).forEach((key)=>{
+                    print_screen_list[key] = result[key]
+                })
+            }
+        }
+        xhr.send()
+    },1000)
 })
