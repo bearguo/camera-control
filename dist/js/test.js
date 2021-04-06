@@ -200,6 +200,11 @@ const DELETE_PRINT_SCREEN_URL = `http://${SERVER_IP}:${SERVER_PORT}/delete_print
 let replay_list = {}
 let print_screen_list = {}
 
+$("#replay-list").on("click", function(){
+    $("#replay-video").css("display", "")
+    $("#print-screen").css("display", "none")
+})
+
 $("#replay-list").on("change", function(){
     $("#replay-video").css("display", "")
     $("#print-screen").css("display", "none")
@@ -207,6 +212,11 @@ $("#replay-list").on("change", function(){
     if(recordNumber!=0){
         $("#replay-video").attr("src", `./record/${replay_list[recordNumber]["name"]}.mp4`)
     }
+})
+
+$("#print-screen-list").on("click", function(){
+    $("#replay-video").css("display", "none")
+    $("#print-screen").css("display", "")
 })
 
 $("#print-screen-list").on("change", function(){
