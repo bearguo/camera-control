@@ -219,13 +219,15 @@ $("#print-screen-list").on("change", function(){
 })
 
 $("#delete-replay").on("click", function(){
+    if($("#replay-list").val() == 0){
+        return
+    }
     let xhr = new XMLHttpRequest()
     xhr.open("POST", DELETE_REPLAY_URL)
     xhr.setRequestHeader('content-type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.response === "ok") {
-                clearInterval(replayInterval)
                 getReplayList()
                 $("#replay-photo").attr("src", ``)
             }else if (xhr.response === "no"){
@@ -243,6 +245,9 @@ $("#delete-replay").on("click", function(){
 })
 
 $("#delete-print-screen").on("click", function(){
+    if($("#print-screen-list").val() == 0){
+        return
+    }
     let xhr = new XMLHttpRequest()
     xhr.open("POST", DELETE_PRINT_SCREEN_URL)
     xhr.setRequestHeader('content-type', 'application/json');
@@ -260,7 +265,7 @@ $("#delete-print-screen").on("click", function(){
         }
     }
     let form = {
-        "delete": replay_list[$("#replay-list").val()]["name"]
+        "delete": replay_list[$("#print-screen-list").val()]["name"]
     }
     console.log(form)
     xhr.send(JSON.stringify(form))
