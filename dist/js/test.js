@@ -229,7 +229,8 @@ $("#delete-replay").on("click", function(){
         if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.response === "ok") {
                 getReplayList()
-                $("#replay-photo").attr("src", ``)
+                $("#replay-video").attr("src", ``)
+                $("#replay-video").css("display", `none`)
             }else if (xhr.response === "no"){
                 $.toast("其他用户正在观看，无法删除")
             }
@@ -256,6 +257,7 @@ $("#delete-print-screen").on("click", function(){
             if (xhr.response === "ok") {
                 getPrintScreenList()
                 $("#print-screen").attr("src", ``)
+                $("#print-screen").css("display", "none")
             }else if (xhr.response === "no"){
                 $.toast("其他用户正在观看，无法删除")
             }
@@ -265,7 +267,7 @@ $("#delete-print-screen").on("click", function(){
         }
     }
     let form = {
-        "delete": replay_list[$("#print-screen-list").val()]["name"]
+        "delete": print_screen_list[$("#print-screen-list").val()]["name"]
     }
     console.log(form)
     xhr.send(JSON.stringify(form))
@@ -298,7 +300,7 @@ function getPrintScreenList(){
             let result = JSON.parse(xhr.response)
             Object.keys(result).forEach((key)=>{
                 print_screen_list[key] = result[key]
-                $("#print-screen-list").append($(`<option value="${parseInt(key)}">${replay_list[key]["name"]}</option>`))
+                $("#print-screen-list").append($(`<option value="${parseInt(key)}">${print_screen_list[key]["name"]}</option>`))
             })
         }
     }
