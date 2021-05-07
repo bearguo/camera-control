@@ -112,7 +112,7 @@ $("#tab-head2").on("click", function(){
             try{
                 $("#live-picture").attr("src", `./photo/live.jpg?${new Date().getTime()}`)
             }catch(err){}  
-        },100)
+        },200)
     }
 })
 
@@ -188,7 +188,7 @@ $("#live-btn").on("click", function(){
             try{
                 $("#live-picture").attr("src", `./photo/live.jpg?${new Date().getTime()}`)
             }catch(err){}  
-        },100)
+        },200)
     }
 })
 
