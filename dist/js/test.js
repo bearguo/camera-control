@@ -355,7 +355,22 @@ function getPrintScreenList(){
     xhr.send()
 }
 
+function postTime(){
+    let dateTime = new Date()
+    let FormatdateTime = `${dateTime.getFullYear()}-${String(dateTime.getMonth()+1).padStart(2,'0')}-${String(dateTime.getDate()).padStart(2,'0')} ${String(dateTime.getHours()).padStart(2,'0')}:${String(dateTime.getMinutes()).padStart(2,'0')}:${String(dateTime.getSeconds()).padStart(2,'0')}`
+    let DATETIME_URL = `http://${SERVER_IP}:${SERVER_PORT}/datetime`
+    let xhr = new XMLHttpRequest()
+    xhr.open("POST", DATETIME_URL)
+    xhr.setRequestHeader('content-type', 'application/json');
+    let form = {
+        datetime:FormatdateTime,
+    }
+    console.log(form)
+    xhr.send(JSON.stringify(form))
+}
+
 $(function(){
+    postTime()
     initSetting()
     getReplayList()
     getPrintScreenList()

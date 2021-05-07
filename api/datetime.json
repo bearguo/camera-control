@@ -1,0 +1,14 @@
+{
+    "说明":"向服务器发送当前时间",
+    "Method":"POST",
+    "URL": "http://localhost:80/datetime",
+    "API":{
+        "datetime":"日期时间 格式 YYYY-MM-dd hh:mm:ss"
+        },
+    "EXAMPLE":{
+            "datetime":"2021-02-25 09:55:40"
+        },
+    "returnValue":{
+        "成功": "ok"
+        }
+}
